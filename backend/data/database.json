@@ -3,22 +3,17 @@
     {
       "id": "1",
       "name": "John Doe",
-      "scores": {
-        "Math": 85
-      },
-      "total": 85
+      "scores": "85",
+      "exam": "Math",
+      "total": "85"
     },
     {
       "id": "2",
       "name": "Jane Smith",
-      "scores": {
-        "Math": 90
-      },
-      "total": 90
+      "scores": "90",
+      "exam": "Math",
+      "total": "90"
     }
   ],
-  "exam": {
-    "title": "Final Exam",
-    "date": "2025-01-06"
-  }
+  "exam": {}
 }
