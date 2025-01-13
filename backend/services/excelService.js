@@ -9,8 +9,9 @@ const generateExcelFile = (students, exam) => {
     // Créer une feuille pour les étudiants
 
     const worksheetData = students.map((student) => ({
-        ID: student.id,
+        Mtknr: student.mtknr,
         Name: student.name,
+        FirstName: student.firstName,
         ...student.scores,
         Total: student.total,
     }));

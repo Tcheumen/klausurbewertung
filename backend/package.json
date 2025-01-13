@@ -15,6 +15,8 @@
     "csv-parser": "^3.1.0",
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
+    "iconv-lite": "^0.6.3",
+    "json2csv": "^6.0.0-alpha.2",
     "multer": "^1.4.5-lts.1",
     "pdfkit": "^0.16.0",
     "xlsx": "^0.18.5"

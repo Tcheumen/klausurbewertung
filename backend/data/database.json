@@ -1,19 +1,320 @@
 {
   "students": [
     {
-      "id": "1",
-      "name": "John Doe",
-      "scores": "85",
-      "exam": "Math",
-      "total": "85"
+      "mtknr": "5923847",
+      "nachname": "Müller",
+      "vorname": "Max",
+      "scores": {
+        "1": 2,
+        "2": 5
+      },
+      "total": 7
     },
     {
-      "id": "2",
-      "name": "Jane Smith",
-      "scores": "90",
-      "exam": "Math",
-      "total": "90"
+      "mtknr": "5762983",
+      "nachname": "Schmidt",
+      "vorname": "Paul",
+      "scores": {
+        "1": 8,
+        "2": 7
+      },
+      "total": 15
+    },
+    {
+      "mtknr": "5847123",
+      "nachname": "Schneider",
+      "vorname": "Alexander",
+      "scores": {
+        "1": 6,
+        "2": 8
+      },
+      "total": 14
+    },
+    {
+      "mtknr": "5983746",
+      "nachname": "Fischer",
+      "vorname": "Lukas",
+      "scores": {}
+    },
+    {
+      "mtknr": "5938174",
+      "nachname": "Weber",
+      "vorname": "Leon",
+      "scores": {}
+    },
+    {
+      "mtknr": "5792834",
+      "nachname": "Meyer",
+      "vorname": "Jonas",
+      "scores": {}
+    },
+    {
+      "mtknr": "5817236",
+      "nachname": "Wagner",
+      "vorname": "Felix",
+      "scores": {}
+    },
+    {
+      "mtknr": "5871934",
+      "nachname": "Becker",
+      "vorname": "Liam",
+      "scores": {}
+    },
+    {
+      "mtknr": "5918273",
+      "nachname": "Schulz",
+      "vorname": "Noah",
+      "scores": {}
+    },
+    {
+      "mtknr": "5761234",
+      "nachname": "Hoffmann",
+      "vorname": "Elias",
+      "scores": {}
+    },
+    {
+      "mtknr": "5938472",
+      "nachname": "Koch",
+      "vorname": "Finn",
+      "scores": {}
+    },
+    {
+      "mtknr": "5847623",
+      "nachname": "Bauer",
+      "vorname": "Julian",
+      "scores": {}
+    },
+    {
+      "mtknr": "5771928",
+      "nachname": "Richter",
+      "vorname": "Tim",
+      "scores": {}
+    },
+    {
+      "mtknr": "5912347",
+      "nachname": "Klein",
+      "vorname": "Tom",
+      "scores": {}
+    },
+    {
+      "mtknr": "5867293",
+      "nachname": "Wolf",
+      "vorname": "Milan",
+      "scores": {}
+    },
+    {
+      "mtknr": "5793846",
+      "nachname": "Schröder",
+      "vorname": "David",
+      "scores": {}
+    },
+    {
+      "mtknr": "5938712",
+      "nachname": "Neumann",
+      "vorname": "Emil",
+      "scores": {}
+    },
+    {
+      "mtknr": "5849273",
+      "nachname": "Schwarz",
+      "vorname": "Ben",
+      "scores": {}
+    },
+    {
+      "mtknr": "5782634",
+      "nachname": "Zimmermann",
+      "vorname": "Mia",
+      "scores": {}
+    },
+    {
+      "mtknr": "5958172",
+      "nachname": "Braun",
+      "vorname": "Emma",
+      "scores": {}
+    },
+    {
+      "mtknr": "5891346",
+      "nachname": "Krüger",
+      "vorname": "Sophia",
+      "scores": {}
+    },
+    {
+      "mtknr": "5738294",
+      "nachname": "Hofmann",
+      "vorname": "Hannah",
+      "scores": {}
+    },
+    {
+      "mtknr": "5849372",
+      "nachname": "Hartmann",
+      "vorname": "Lea",
+      "scores": {}
+    },
+    {
+      "mtknr": "5791823",
+      "nachname": "Lange",
+      "vorname": "Anna",
+      "scores": {}
+    },
+    {
+      "mtknr": "5982734",
+      "nachname": "Schmitt",
+      "vorname": "Marie",
+      "scores": {}
+    },
+    {
+      "mtknr": "5937412",
+      "nachname": "Werner",
+      "vorname": "Lina",
+      "scores": {}
+    },
+    {
+      "mtknr": "5861923",
+      "nachname": "Schmitz",
+      "vorname": "Emilia",
+      "scores": {}
+    },
+    {
+      "mtknr": "5772938",
+      "nachname": "Krause",
+      "vorname": "Lara",
+      "scores": {}
+    },
+    {
+      "mtknr": "5918723",
+      "nachname": "Meier",
+      "vorname": "Clara",
+      "scores": {}
+    },
+    {
+      "mtknr": "5791284",
+      "nachname": "Lehmann",
+      "vorname": "Nina",
+      "scores": {}
+    },
+    {
+      "mtknr": "5847913",
+      "nachname": "Schmid",
+      "vorname": "Ella",
+      "scores": {}
+    },
+    {
+      "mtknr": "5982739",
+      "nachname": "Schulze",
+      "vorname": "Greta",
+      "scores": {}
+    },
+    {
+      "mtknr": "5931287",
+      "nachname": "Maier",
+      "vorname": "Lara",
+      "scores": {}
+    },
+    {
+      "mtknr": "5773492",
+      "nachname": "Köhler",
+      "vorname": "Melina",
+      "scores": {}
+    },
+    {
+      "mtknr": "5894713",
+      "nachname": "Herrmann",
+      "vorname": "Sarah",
+      "scores": {}
+    },
+    {
+      "mtknr": "5917824",
+      "nachname": "König",
+      "vorname": "Laura",
+      "scores": {}
+    },
+    {
+      "mtknr": "5763829",
+      "nachname": "Walter",
+      "vorname": "Julia",
+      "scores": {}
+    },
+    {
+      "mtknr": "5849712",
+      "nachname": "Mayer",
+      "vorname": "Tobias",
+      "scores": {}
+    },
+    {
+      "mtknr": "5932871",
+      "nachname": "Huber",
+      "vorname": "Erik",
+      "scores": {}
+    },
+    {
+      "mtknr": "5981723",
+      "nachname": "Kaiser",
+      "vorname": "Simon",
+      "scores": {}
+    },
+    {
+      "mtknr": "5794638",
+      "nachname": "Fuchs",
+      "vorname": "Samuel",
+      "scores": {}
+    },
+    {
+      "mtknr": "5912378",
+      "nachname": "Peters",
+      "vorname": "Moritz",
+      "scores": {}
+    },
+    {
+      "mtknr": "5847391",
+      "nachname": "Lang",
+      "vorname": "Nico",
+      "scores": {}
+    },
+    {
+      "mtknr": "5761923",
+      "nachname": "Scholz",
+      "vorname": "Jan",
+      "scores": {}
+    },
+    {
+      "mtknr": "5937812",
+      "nachname": "Möller",
+      "vorname": "Ahmet",
+      "scores": {}
+    },
+    {
+      "mtknr": "5982731",
+      "nachname": "Ibrahim",
+      "vorname": "Mehmet",
+      "scores": {}
+    },
+    {
+      "mtknr": "5871938",
+      "nachname": "Nguyen",
+      "vorname": "Fatma",
+      "scores": {}
+    },
+    {
+      "mtknr": "5918274",
+      "nachname": "Öztürk",
+      "vorname": "Aylin",
+      "scores": {}
+    },
+    {
+      "mtknr": "5791382",
+      "nachname": "Ali",
+      "vorname": "Leyla",
+      "scores": {}
+    },
+    {
+      "mtknr": "5489654",
+      "nachname": "Kaya",
+      "vorname": "Nguyen",
+      "scores": {}
     }
   ],
-  "exam": {}
+  "exercises": [
+    "1",
+    "2"
+  ]
 }

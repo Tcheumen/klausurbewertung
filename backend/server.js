@@ -29,6 +29,8 @@ const upload = multer({ dest: 'uploads/' });
 app.post('/api/upload', upload.single('file'), dataController.uploadCSV);
 app.get('/api/data', dataController.getData);
 app.post('/api/data', dataController.saveData);
+app.get('/api/export/csv', dataController.exportCSV);
+
 
 app.post('/api/export/excel', exportController.generateExcel);
 app.post('/api/export/pdf', exportController.generatePDF);
