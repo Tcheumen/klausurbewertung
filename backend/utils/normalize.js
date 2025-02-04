@@ -12,6 +12,10 @@ const normalizeData = (students) => {
           mtknr: values[keys.indexOf('mtknr')] || '',
           nachname: values[keys.indexOf('nachname')] || '',
           vorname: values[keys.indexOf('vorname')] || '',
+          pversuch: values[keys.indexOf('pversuch')] || '',
+          pvermerk: values[keys.indexOf('pvermerk')] || '',
+          sitzplatz: values[keys.indexOf('sitzplatz')] || ''
+          
         };
       }
     }

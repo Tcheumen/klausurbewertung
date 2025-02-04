@@ -1,3 +1,4 @@
+/* This is a Node.js server setup using Express framework. Let me break down the code for you: */
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -7,6 +8,7 @@ const path = require('path');
 
 
 const dataController = require('./controllers/dataController');
+const thresholdController = require('./controllers/thresholdController');
 const exportController = require('./controllers/exportController');
 
 
@@ -27,13 +29,37 @@ const upload = multer({ dest: 'uploads/' });
 
 
 app.post('/api/upload', upload.single('file'), dataController.uploadCSV);
-app.get('/api/data', dataController.getData);
-app.post('/api/data', dataController.saveData);
-app.get('/api/export/csv', dataController.exportCSV);
+app.get('/api/data', dataController.getStudent);
+app.post('/api/data', dataController.saveStudent);
+app.get('/api/export/csv', exportController.generateCSV);
 
 
 app.post('/api/export/excel', exportController.generateExcel);
-app.post('/api/export/pdf', exportController.generatePDF);
+app.get('/api/export/excel-data', exportController.generateExcel);
+
+app.get('/api/export/pdf', exportController.generatePDF);
+
+
+//test excel
+//app.get('/api/data/weighting', dataController.getWeightingOfExercice);
+//app.post('/api/data/weighting', dataController.saveWeightingOfExercice);
+
+
+app.post('/api/data/addTask', dataController.addTask);
+app.put('/api/data/updateTask', dataController.updateTask);
+app.delete('/api/data/deleteTask', dataController.deleteTask);
+
+// route Threshold
+app.post('/api/data/add-threshold', thresholdController.addThreshold);
+app.put('/api/data/update-threshold', thresholdController.updateThreshold);
+app.delete('/api/data/delete-threshold', thresholdController.deleteThreshold);
+app.get('/api/data/get-threshold', thresholdController.getThresholds);
+app.post('/api/data/save-threshold', thresholdController.saveAllThresholds);
+
+
+
+
+
 
 
 app.listen(PORT, () => {

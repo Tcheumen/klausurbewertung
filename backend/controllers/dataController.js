@@ -10,8 +10,6 @@ const { normalizeData } = require('../utils/normalize');
 const DATABASE_PATH = path.join(__dirname, '../data/database.json');
 
 
-
-
 const uploadCSV = (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'Aucun fichier trouvé' });
@@ -33,9 +31,26 @@ const uploadCSV = (req, res) => {
       // Normaliser les données des étudiants
       const normalizedStudents = normalizeData(students);
 
-      // Sauvegarder les données dans un fichier JSON
-      const data = { students: normalizedStudents, exam: {} };
-      fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
+      // Charger l'ancien fichier JSON s'il existe
+      let existingData = {};
+      try {
+        existingData = JSON.parse(fs.readFileSync(DATABASE_PATH, 'utf8'));
+      } catch (error) {
+        console.warn('Aucun fichier JSON existant, création d’un nouveau fichier.');
+      }
+
+      // Conserver les autres champs (comme thresholds) et mettre à jour uniquement students
+      const updatedData = {
+        ...existingData,
+        students: normalizedStudents,// Mettre à jour uniquement les étudiants
+        
+        weightingOfExercice: {},
+        
+       
+      };
+
+      // Sauvegarder les données mises à jour dans le fichier JSON
+      fs.writeFileSync(DATABASE_PATH, JSON.stringify(updatedData, null, 2));
 
       // Répondre avec succès
       res.json({ message: 'Fichier uploadé avec succès', students: normalizedStudents });
@@ -46,60 +61,9 @@ const uploadCSV = (req, res) => {
     });
 };
 
-// Charger un fichier CSV et enregistrer les données dans le JSON
-
-/*
-const uploadCSV = (req, res) => {
-  // Vérifiez si aucun fichier n'a été fourni
-  if (!req.file) {
-    return res.status(400).json({ error: 'Aucun fichier trouvé' });
-  }
-
-  const filePath = req.file.path; // Chemin temporaire du fichier CSV
-  const students = [];
-
-  // Lire et traiter le fichier CSV
-  fs.createReadStream(filePath)
-    .pipe(csv({ separator: ';'}))
-    .on('data', (row) => {
-      const student = {
-        mtknr: row['MatrikelNr'] || '',
-        nachname: row['Nachname'] || '',
-        vorname: row['Vorname'] || '',
-        scores: {},
-        total: 0,
-      };
-
-      Object.keys(row).forEach((key) => {
-        if (key !== 'MatrikelNr' && key !== 'Nachname' && key !== 'Vorname') {
-          student.scores[key] = parseFloat(row[key]) || 0;
-        }
-      });
-      students.push(row); // Ajouter chaque ligne du fichier CSV dans le tableau
-    })
-    .on('end', () => {
-      // Supprimer le fichier temporaire après traitement
-      //fs.unlinkSync(filePath);
-
-      // Sauvegarder les données dans un fichier JSON
-      const data = { students, exam: {} };
-      fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
-
-      // Répondre avec succès
-      res.json({ message: 'Fichier uploadé avec succès', students });
-    })
-    .on('error', (error) => {
-      console.error('Erreur lors du traitement du fichier CSV:', error);
-
-      // Répondre avec une erreur
-      res.status(500).json({ message: 'Erreur lors du traitement du fichier', error });
-    });
-};
-*/
-
 // Récupérer les données depuis le fichier JSON
 
-const getData = (req, res) => {
+const getStudent = (req, res) => {
     if (fs.existsSync(DATABASE_PATH)) {
         const data = fs.readFileSync(DATABASE_PATH, 'utf8');
         res.json(JSON.parse(data));
@@ -110,73 +74,196 @@ const getData = (req, res) => {
 
 // Sauvegarder les données dans le fichier JSON
 
-const saveData = (req, res) => {
-    const data = req.body;
-    fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
-    res.json({ message: 'Data successfully saved' })
+const saveStudent = (req, res) => {
+  const data = req.body;
+
+  if (!data || !Array.isArray(data.students) || typeof data.exercises !== 'object') {
+    return res.status(400).json({ message: 'Invalid data format' });
+  }
+
+  try {
+    // Charger les données existantes
+    let existingData = {};
+    try {
+      existingData = JSON.parse(fs.readFileSync(DATABASE_PATH, 'utf8'));
+    } catch (error) {
+      console.warn('No existing data found, creating a new file.');
+    }
+
+    // Fusionner les nouvelles données tout en conservant les anciens champs
+    const updatedData = {
+      ...existingData,
+      students: data.students, // Met à jour uniquement les étudiants
+       weightingOfExercice: {
+        ...existingData.weightingOfExercice, // Conserver les exercices existants
+        ...data.exercises, // Ajouter ou mettre à jour les exercices
+      },
+     
+      
+    };
+
+    // Sauvegarder les données mises à jour
+    fs.writeFileSync(DATABASE_PATH, JSON.stringify(updatedData, null, 2));
+    res.json({ message: 'Data successfully saved' });
+  } catch (error) {
+    console.error('Error saving data:', error);
+    res.status(500).json({ message: 'Error saving data' });
+  }
 };
 
-// Exporter les données en fichier CSV
-const exportCSV = (req, res) => {
-  if (fs.existsSync(DATABASE_PATH)) {
-    const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
-    const { students, exercises } = JSON.parse(rawData);
+// Ajouter une nouvelle tâche
+const addTask = (req, res) => {
+  try {
+    const { tasks, weightingOfExercice } = req.body;
 
-    // Définir les colonnes du fichier CSV
-    const fields = ['MatrikelNr','Nachname', 'Vorname', ...exercises, 'Total'];
-    const rows = students.map(student => {
-      const row = {
-        MatrikelNr: student.mtknr,
-        Nachname: student.nachname || '', // Nom (par défaut vide si absent)
-        Vorname: student.vorname || '',
-        Total: student.total || 0, // Total (par défaut 0 si absent)
-      };
+    // Validation des entrées
+    if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
+      return res.status(400).json({ message: 'A valid list of tasks is required' });
+    }
 
-      // Ajouter les scores pour chaque exercice, avec valeur par défaut 0
-      exercises.forEach(exercise => {
-        row[exercise] = student.scores?.[exercise] || 0;
+    if (!weightingOfExercice || typeof weightingOfExercice !== 'object') {
+      return res.status(400).json({ message: 'A valid weighting object is required' });
+    }
+
+    // Charger ou initialiser la base de données
+    let data = {
+      students: [],
+      weightingOfExercice: {}
+    };
+
+    if (fs.existsSync(DATABASE_PATH)) {
+      const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
+      if (rawData.trim()) {
+        data = JSON.parse(rawData);
+      }
+    }
+
+    // Ajouter les pondérations
+    data.weightingOfExercice = { ...data.weightingOfExercice, ...weightingOfExercice };
+
+    // Ajouter les nouvelles tâches aux étudiants
+    data.students = data.students.map(student => {
+      if (!student.scores) {
+        student.scores = {};
+      }
+
+      tasks.forEach(task => {
+        if (!(task in student.scores)) {
+          student.scores[task] = 0; // Initialisation à 0
+        }
       });
 
-      return row;
+      // Recalculer le total des scores
+      student.total = Object.values(student.scores).reduce((sum, score) => sum + score, 0);
+
+      return student;
     });
 
-    try {
-      // Créer l'entête et les lignes avec point-virgule comme séparateur
-      const separator = ';'; // Utilisez ',' si votre Excel attend des virgules
-      const header = fields.join(separator);
-      const data = rows
-        .map(row =>
-          fields
-            .map(field =>
-              typeof row[field] === 'string' && row[field].includes(separator)
-                ? `"${row[field]}"`
-                : row[field]
-            )
-            .join(separator)
-        )
-        .join('\n');
+    // Sauvegarder les changements
+    fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
 
-      const csv = `\uFEFF${header}\n${data}`;
-
-      // Envoi du fichier CSV
-      res.header('Content-Type', 'text/csv; charset=utf-8');
-      res.attachment('exam_data.csv');
-      res.send(csv);
-    } catch (error) {
-      res.status(500).json({ message: 'Erreur lors de l’exportation du fichier CSV', error });
-    }
-  } else {
-    res.status(404).json({ message: 'Aucune donnée trouvée' });
+    res.json({ message: 'Tasks and weightings added successfully', data });
+  } catch (error) {
+    console.error('Error in addTask:', error);
+    res.status(500).json({ message: 'An error occurred', error: error.message });
   }
 };
 
 
 
+// Supprimer une tâche
+const deleteTask = (req, res) => {
+  try {
+    const { task } = req.body;
+
+    if (!task) {
+      return res.status(400).json({ message: 'Task is required' });
+    }
+
+    if (fs.existsSync(DATABASE_PATH)) {
+      const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
+      const data = JSON.parse(rawData);
+
+      // Vérifier si la tâche existe dans les pondérations
+      if (data.weightingOfExercice && task in data.weightingOfExercice) {
+        delete data.weightingOfExercice[task]; // Supprimer la pondération
+      }
+
+      // Supprimer la tâche des scores de chaque étudiant
+      data.students = data.students.map(student => {
+        if (student.scores && task in student.scores) {
+          delete student.scores[task];
+        }
+        // Recalculer le total des scores
+        student.total = Object.values(student.scores || {}).reduce((sum, score) => sum + score, 0);
+        return student;
+      });
+
+      // Sauvegarder les modifications
+      fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
+
+      res.json({ message: 'Task deleted successfully', data });
+    } else {
+      res.status(404).json({ message: 'No data found' });
+    }
+  } catch (error) {
+    console.error('Error in deleteTask:', error);
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+};
+
+
+// Mettre à jour une tâche
+const updateTask = (req, res) => {
+  try {
+    const { oldTask, newTask } = req.body;
+
+    if (!oldTask || !newTask) {
+      return res.status(400).json({ message: 'Both oldTask and newTask are required' });
+    }
+
+    if (fs.existsSync(DATABASE_PATH)) {
+      const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
+      const data = JSON.parse(rawData);
+
+      // Mettre à jour la pondération
+      if (data.weightingOfExercice && oldTask in data.weightingOfExercice) {
+        data.weightingOfExercice[newTask] = data.weightingOfExercice[oldTask];
+        delete data.weightingOfExercice[oldTask];
+      }
+
+      // Mettre à jour la tâche dans les scores de chaque étudiant
+      data.students = data.students.map(student => {
+        if (student.scores && oldTask in student.scores) {
+          student.scores[newTask] = student.scores[oldTask];
+          delete student.scores[oldTask];
+        }
+        // Recalculer le total des scores
+        student.total = Object.values(student.scores || {}).reduce((sum, score) => sum + score, 0);
+        return student;
+      });
+
+      // Sauvegarder les modifications
+      fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
+
+      res.json({ message: 'Task updated successfully', data });
+    } else {
+      res.status(404).json({ message: 'No data found' });
+    }
+  } catch (error) {
+    console.error('Error in updateTask:', error);
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+};
+
 
 
 module.exports = {
     uploadCSV,
-    getData, 
-    saveData,
-    exportCSV,
-}
+    getStudent, 
+    saveStudent,
+   // exportCSV,
+    addTask,
+    deleteTask,
+    updateTask
+};
