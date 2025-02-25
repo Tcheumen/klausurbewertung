@@ -1,0 +1,246 @@
+/* Section d'importation de fichier */
+.upload-section {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.upload-section label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.upload-section input[type="file"] {
+  margin: 10px 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.upload-section button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.upload-section button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.upload-section button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Section des exercices */
+.exercise-section {
+  background: #f0f8ff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.exercise-section h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.exercise-section input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  width: 250px;
+}
+
+.exercise-section button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.exercise-section button:hover {
+  background: #218838;
+}
+
+.exercise-section button:disabled {
+  background: #ccc;
+  cursor:not-allowed;
+}
+
+/* Tableaux */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+table th {
+  background: #ecbb6c;
+  color: white;
+  font-weight: bold;
+}
+
+table td input {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Boutons de suppression */
+table td button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+table td button:hover {
+  background: #c82333;
+}
+
+/* Section des actions */
+.actions {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.actions button {
+  background: #17a2b8;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 5px;
+  font-weight: bold;
+  margin: 5px;
+  transition: background 0.3s, transform 0.2s;
+  
+}
+
+button:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.actions button:disabled {
+  background: #ccc;
+  cursor:not-allowed;
+}
+
+
+
+
+.disabled-button {
+  opacity: 0.5;  /* Rendre le bouton plus transparent */
+  
+}
+
+.actions app-csvexport,
+.actions app-export-excel,
+.actions app-pdf-export {
+  display: inline-block;
+  margin: 5px;
+  border-radius: 10px; 
+   
+}
+
+ .actions .btn-primary {
+  background-color: #818a92;
+  color: white;
+}
+
+.actions .btn-primary:hover {
+  background-color: #6c757d; 
+}
+
+.error-message {
+  color: red;
+  background: #f3f7f5;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+  border: 1px solid #f9bfbf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.error-message i {
+  font-size: 18px;
+}
+
+.success-message {
+  color: #28a745;
+  background: #d4edda;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+  border: 1px solid #c3e6cb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.success-message i {
+  font-size: 18px;
+}
+
+
+
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .exercise-section input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .exercise-section button {
+    width: 100%;
+  }
+}

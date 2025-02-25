@@ -1,0 +1,26 @@
+.navbar {
+  margin-bottom: 20px;
+  background-color: #34495e!important;
+}
+.navbar-nav .nav-link {
+  color: white;
+  font-weight: 500;
+  position: relative;
+  padding: 10px 15px;
+}
+.navbar-nav .nav-link:hover {
+  color: #dfe6f1;
+}
+.navbar-nav .nav-link.active {
+  color: white;
+  font-weight: bold;
+}
+.navbar-nav .nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+}

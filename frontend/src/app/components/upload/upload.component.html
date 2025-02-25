@@ -1,0 +1,119 @@
+<!-- Abschnitt für den Dateiimport -->
+<div class="upload-section">
+  <label for="csvFile"><i class="fas fa-file-upload"></i> CSV-Datei importieren :</label>
+  <input type="file" id="csvFile" (change)="onFileSelected($event)" />
+  <button (click)="uploadFile()" [disabled]="!file">
+    <i class="fas fa-cloud-upload-alt"></i> Hochladen
+  </button>
+  <p *ngIf="saveMessage" class="success-message">
+    <i class="fas fa-check-circle"></i> {{ saveMessage }}
+  </p>
+  <p *ngIf="fileError" class="error-message">
+    <i class="fas fa-exclamation-circle"></i> {{ fileError }}
+  </p>
+
+</div>
+
+<!-- Abschnitt für die Übungen -->
+<div class="exercise-section">
+  <h3><i class="fas fa-tasks"></i> Übungen einstellen</h3>
+  <input type="text" [(ngModel)]="newTask" placeholder="Name der Aufgabe" />
+  <input type="number" [(ngModel)]="newTaskWeight" placeholder="Gewichtung der Übungen" />
+  <button (click)="addTask()" [disabled]="!isFileUploaded"><i class="fas fa-plus-circle"></i> Hinzufügen</button>
+
+  <!-- Tabelle für Aufgaben und deren Gewichtung -->
+  <table *ngIf="tasks.length > 0">
+    <thead>
+      <tr>
+        <th><i class="fas fa-tasks"></i> Aufgabe</th>
+        <th><i class="fas fa-weight-hanging"></i> Gewichtung</th>
+        <th><i class="fas fa-tools"></i> Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks">
+        <td>{{ task }}</td>
+        <td>{{ taskWeights[task] || 'Nicht definiert' }}</td>
+        <td>
+          <button (click)="removeTask(task)" class="delete-btn">
+            <i class="fas fa-trash"></i> Löschen
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="taskMessage" class="success-message">
+    <i class="fas fa-check-circle"></i> {{ taskMessage }}
+  </p>
+
+  <p *ngIf="taskError" class="error-message">
+    <i class="fas fa-exclamation-circle"></i> {{ taskError }}
+  </p>
+
+</div>
+
+<!-- Tabelle der Studierenden und Punktzahlen -->
+<table *ngIf="students && students.length > 0">
+  <thead>
+    <tr>
+      <th><i class="fas fa-id-card"></i> MatrikelNr</th>
+      <th><i class="fas fa-user"></i> Nachname</th>
+      <th><i class="fas fa-user"></i> Vorname</th>
+      <th><i class="fas fa-check"></i> Pversuch</th>
+      <th><i class="fas fa-info-circle"></i> Pvermerk</th>
+      <th><i class="fas fa-chair"></i> Sitzplatz</th>
+      <th *ngFor="let task of tasks">{{ task }}</th>
+      <th><i class="fas fa-calculator"></i> Gesamt</th>
+      <th><i class="fas fa-star"></i> Bewertung</th> <!-- Neue Spalte -->
+      <th><i class="fas fa-graduation-cap"></i> Note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of students">
+      <td>{{ student.mtknr }}</td>
+      <td>{{ student.nachname }}</td>
+      <td>{{ student.vorname }}</td>
+      <td>{{ student.pversuch }}</td>
+      <td>{{ student.pvermerk }}</td>
+      <td>{{ student.sitzplatz }}</td>
+      <td *ngFor="let task of tasks">
+        <input type="number" [(ngModel)]="student.scores[task]"
+          (change)="updateScore(student, task, student.scores[task])" [min]="0" [max]="taskWeights[task]" />
+
+        <!-- Fehlermeldung anzeigen, wenn die Punktzahl die Gewichtung überschreitet -->
+        <p *ngIf="scoreErrors[student.mtknr] && scoreErrors[student.mtknr][task]" class="error-message">
+          <i class="fas fa-exclamation-triangle"></i> {{ scoreErrors[student.mtknr][task] }}
+        </p>
+      </td>
+      <td>{{ student.total || 0 }}</td>
+      <td>{{ student.bewertung }}</td> <!-- Methode wird verwendet -->
+      <td>{{ student.note }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Aktionen -->
+<div class="actions">
+  <button class="btn btn-primary" (click)="navigateToPrevious()">
+    <i class="fas fa-arrow-left"></i> Zurück
+  </button>
+  <button (click)="saveData()" [disabled]="!isFileUploaded">
+    <i class="fas fa-save"></i> Speichern
+  </button>
+
+  <p *ngIf="saveMessage" class="success-message">
+    <i class="fas fa-check-circle"></i> {{ saveMessage }}
+  </p>
+
+  <app-csvexport (exportCsvClicked)="exportCSV()" [disabled]="!isSaved" [class.disabled-button]="!isSaved">
+    <i class="fas fa-file-csv"></i> CSV exportieren
+  </app-csvexport>
+
+  <app-export-excel (exportClicked)="exportEXcel()" [disabled]="!isSaved" [class.disabled-button]="!isSaved">
+    <i class="fas fa-file-excel"></i> Excel exportieren
+  </app-export-excel>
+
+  <app-pdf-export (exportPdfClicked)="exportPdf()" [disabled]="!isSaved" [class.disabled-button]="!isSaved">
+    <i class="fas fa-file-pdf"></i> PDF exportieren
+  </app-pdf-export>
+</div>

@@ -1,0 +1,86 @@
+<!-- Formular zum Hinzufügen eines neuen Schwellenwerts -->
+<h3>Neuen Schwellenwert hinzufügen</h3>
+<form (ngSubmit)="addThreshold()" class="threshold-form">
+  <div class="form-group">
+    <label for="new-points"><i class="fas fa-chart-bar"></i> Punkte:</label>
+    <input id="new-points" type="number" [(ngModel)]="newThreshold.points" name="new_points" required />
+  </div>
+
+  <div class="form-group">
+    <label for="new-percentage"><i class="fas fa-percentage"></i> Prozentsatz:</label>
+    <input id="new-percentage" type="number" [(ngModel)]="newThreshold.percentage" name="new_percentage" required />
+  </div>
+
+  <div class="form-group">
+    <label for="new-note"><i class="fas fa-sticky-note"></i> Note:</label>
+    <input id="new-note" type="number" [(ngModel)]="newThreshold.note" name="new_note" required />
+  </div>
+
+  <button type="submit" class="add-btn">
+    <i class="fas fa-plus-circle"></i> Hinzufügen
+  </button>
+</form>
+
+<div *ngIf="errorMessage" class="error">
+  <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+</div>
+
+<h2><i class="fas fa-list"></i> Schwellenwerte</h2>
+
+<div *ngIf="loading" class="loading">
+  <i class="fas fa-spinner fa-spin"></i> Laden der Schwellenwerte...
+</div>
+
+<!-- Tabelle der Schwellenwerte -->
+<table *ngIf="!loading && thresholds.length > 0" class="threshold-table">
+  <thead>
+    <tr>
+      <th><i class="fas fa-chart-bar"></i> Punkte</th>
+      <th><i class="fas fa-percentage"></i> Prozentsatz</th>
+      <th><i class="fas fa-sticky-note"></i> Note</th>
+      <th><i class="fas fa-tools"></i> Aktionen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let threshold of thresholds">
+      <td>
+        <input type="number" [(ngModel)]="threshold.points" name="points_{{threshold.percentage}}" />
+      </td>
+      <td>
+        <input type="number" [(ngModel)]="threshold.percentage" name="percentage_{{threshold.percentage}}" />
+      </td>
+      <td>
+        <input type="number" [(ngModel)]="threshold.note" name="note_{{threshold.percentage}}" />
+      </td>
+      <td class="action-buttons">
+        <button (click)="deleteThreshold(threshold.percentage)" class="delete-btn">
+          <i class="fas fa-trash"></i> Löschen
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Nachricht, wenn keine Schwellenwerte vorhanden sind -->
+<div *ngIf="!loading && thresholds.length === 0" class="no-thresholds">
+  <p><i class="fas fa-info-circle"></i> Keine Schwellenwerte verfügbar. Fügen Sie unten einen neuen Schwellenwert hinzu.
+  </p>
+</div>
+
+<!-- Speichern-Button et Suivant -->
+<div *ngIf="!loading && thresholds.length > 0" class="button-container">
+   <button class="btn btn-primary" (click)="navigateToPrevious()">
+     <i class="fas fa-arrow-left"></i> Zurück
+   </button>
+  <button (click)="saveAllThresholds()" class="save-btn">
+    <i class="fas fa-save"></i> Änderungen speichern
+  </button>
+  <button class="btn btn-success" (click)="navigateToNext()" [disabled]="!isSaved">
+    Weiter<i class="fas fa-arrow-right"></i>
+  </button>
+</div>
+<p *ngIf="saveMessage" class="success-message">
+  <i class="fas fa-check-circle"></i> {{ saveMessage }}
+</p>
+
+
