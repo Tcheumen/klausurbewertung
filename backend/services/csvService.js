@@ -6,19 +6,15 @@ const DATABASE_PATH = path.join(__dirname, '../data/database.json');
 const exportCSV = () => {
   if (fs.existsSync(DATABASE_PATH)) {
     const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
-    const { students, exercises } = JSON.parse(rawData);
+    const { students, exercises, moduleInfo } = JSON.parse(rawData);
 
-    // Assurez-vous que exercises est un tableau ou un objet
     const exerciseList = Array.isArray(exercises) ? exercises : Object.keys(exercises || {});
 
-    // Définir les colonnes du fichier CSV (Ajout de 'Bewertung')
     const fields = ['MatrikelNr', 'Nachname', 'Vorname', 'Pversuch', 'Pvermerk', 'Sitzplatz', ...exerciseList, 'Total', 'Bewertung'];
 
     const rows = students.map(student => {
-      // Vérifiez si l'étudiant a des scores valides
       const hasScores = student.scores && Object.keys(student.scores).length > 0;
 
-      // Initialisez une ligne avec les informations de base
       const row = {
         MatrikelNr: student.mtknr || '',
         Nachname: student.nachname || '',
@@ -28,36 +24,36 @@ const exportCSV = () => {
         Sitzplatz: student.sitzplatz || '',
       };
 
-      // Ajoutez les scores pour chaque exercice, ou laissez vide si aucun score
       exerciseList.forEach(exercise => {
-        row[exercise] = hasScores ? (student.scores?.[exercise] || '') : ''; // Champ vide si pas de score
+        row[exercise] = hasScores ? (student.scores?.[exercise] || '') : '';
       });
 
-      // Calcul du total des scores (ou "ne" si aucun score)
       const total = Object.values(student.scores || {}).reduce((sum, score) => sum + (score || 0), 0);
-      row['Total'] = total || 'ne'; // Met "ne" si pas de score total
-
-      // Ajout de la colonne "Bewertung"
-      row['Bewertung'] = student.bewertung || ''; // Met une valeur vide si non défini
+      row['Total'] = total ? String(total).padStart(23, ' ').toString().replace('.', ',') : String('ne').padStart(24, ' ').toString().replace('.', ',');
+      
+      row['Bewertung'] = student.bewertung || String('ne').padStart(24, ' ');
 
       return row;
     });
 
-    const separator = ';'; // Utilisez ',' si votre logiciel exige des virgules
+    const separator = ';';
     const header = fields.join(separator);
     const data = rows
       .map(row =>
         fields
           .map(field =>
-            typeof row[field] === 'string' && row[field].includes(separator)
-              ? `"${row[field]}"` // Ajouter des guillemets si le champ contient un séparateur
+            typeof row[field] === 'string' && row[field].includes(separator) && field !== 'Total'
+              ? `"${row[field]}"` 
               : row[field]
           )
           .join(separator)
       )
       .join('\n');
 
-    const csv = `\uFEFF${header}\n${data}`;
+    const moduleInfoHeader = `Module Title${separator}Module Number${separator}Prüfungsdatum${separator}Prüfer${separator}Exportdatum\n`;
+    const moduleInfoData = `${moduleInfo.moduleTitle}${separator}${moduleInfo.moduleNumber}${separator}${moduleInfo.examDate}${separator}${moduleInfo.examiners.join(', ')}${separator}${new Date().toLocaleDateString()}\n`;
+
+    const csv = `\uFEFF${moduleInfoHeader}${moduleInfoData}\n${header}\n${data}`;
 
     return csv;
   } else {

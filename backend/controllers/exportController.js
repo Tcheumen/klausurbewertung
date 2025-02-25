@@ -26,7 +26,7 @@ const generateExcel = (req, res) => {
 const generatePDF = async (req, res) => {
     try {
         const pdfPath = await generatePDFReport(); // Attendre la résolution de la promesse
-        res.download(pdfPath, 'Rapport_Evaluation_Examens.pdf', (err) => {
+        res.download(pdfPath, 'Pruefungsbewertungsbericht.pdf', (err) => {
             if (err) {
                 console.error('Erreur lors du téléchargement:', err);
                 res.status(500).json({ message: 'Erreur lors du téléchargement du fichier PDF' });

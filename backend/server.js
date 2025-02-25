@@ -9,6 +9,7 @@ const path = require('path');
 
 const dataController = require('./controllers/dataController');
 const thresholdController = require('./controllers/thresholdController');
+const moduleController = require('./controllers/moduleController');
 const exportController = require('./controllers/exportController');
 
 
@@ -51,10 +52,15 @@ app.delete('/api/data/deleteTask', dataController.deleteTask);
 
 // route Threshold
 app.post('/api/data/add-threshold', thresholdController.addThreshold);
-app.put('/api/data/update-threshold', thresholdController.updateThreshold);
 app.delete('/api/data/delete-threshold', thresholdController.deleteThreshold);
 app.get('/api/data/get-threshold', thresholdController.getThresholds);
 app.post('/api/data/save-threshold', thresholdController.saveAllThresholds);
+
+// route Module
+app.post('/api/data/add-module', moduleController.addModuleInfo);
+app.get('/api/data/get-module', moduleController.getModuleInfo);
+app.put('/api/data/update-module', moduleController.updateModuleInfo);
+
 
 
 

@@ -4,10 +4,11 @@ const path = require('path');
 const DATABASE_PATH = path.join(__dirname, '../data/database.json');
 
 // Ajouter un seuil
+
 const addThreshold = (req, res) => {
   let { points, percentage, note } = req.body;
 
-  // Convertir les types
+  // Convertir en nombres
   points = Number(points);
   percentage = Number(percentage);
   note = Number(note);
@@ -22,6 +23,18 @@ const addThreshold = (req, res) => {
 
     if (!data.thresholds) {
       data.thresholds = [];
+    }
+
+    // Vérifier si le seuil existe déjà (même points, percentage et note)
+    const exists = data.thresholds.some(
+      (threshold) => 
+        threshold.points === points &&
+        threshold.percentage === percentage &&
+        threshold.note === note
+    );
+
+    if (exists) {
+      return res.status(400).json({ message: 'Threshold already exists' });
     }
 
     // Ajouter un nouveau seuil
@@ -63,47 +76,7 @@ const deleteThreshold = (req, res) => {
   }
 };
 
-// Mettre à jour un seuil
-const updateThreshold = (req, res) => {
-  let { oldPercentage, newThreshold } = req.body;
 
-  if (oldPercentage === undefined || !newThreshold) {
-    return res.status(400).json({ message: 'Old percentage and new threshold data are required' });
-  }
-
-  let { points, percentage, note } = newThreshold;
-
-  // Convertir les types
-  points = Number(points);
-  percentage = Number(percentage);
-  note = Number(note);
-
-  if (isNaN(points) || isNaN(percentage) || isNaN(note)) {
-    return res.status(400).json({ message: 'New threshold must have valid numbers' });
-  }
-
-  if (fs.existsSync(DATABASE_PATH)) {
-    const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
-    const data = JSON.parse(rawData);
-
-    if (!data.thresholds) {
-      return res.status(404).json({ message: 'No thresholds found' });
-    }
-
-    const index = data.thresholds.findIndex(threshold => threshold.percentage === oldPercentage);
-    if (index === -1) {
-      return res.status(404).json({ message: 'Threshold with the given percentage not found' });
-    }
-
-    data.thresholds[index] = { points, percentage, note };
-
-    // Sauvegarder les modifications
-    fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
-    res.json({ message: 'Threshold updated successfully', thresholds: data.thresholds });
-  } else {
-    res.status(404).json({ message: 'No data found' });
-  }
-};
 
 
 // Récupérer tous les seuils
@@ -162,7 +135,6 @@ const saveAllThresholds = (req, res) => {
 module.exports = {
   addThreshold,
   deleteThreshold,
-  updateThreshold,
   getThresholds,
   saveAllThresholds
 };

@@ -1,114 +1,129 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
-const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
+const { generateChart, generatePassChart, generateRadarChart } = require('../utils/chartGenerator');
+const { getProcessedData } = require('../utils/studentsStatistics');
+const { drawTable } = require('../utils/tableDrawer');
 
-const DATABASE_PATH = path.join(__dirname, '../data/database.json');
-const EXPORT_PATH = path.join(__dirname, '../exports/Rapport_Evaluation_Examens.pdf');
-const CHART_WIDTH = 600;
-const CHART_HEIGHT = 400;
-const PAGE_HEIGHT = 750;
-const MARGIN_TOP = 50;
-const ROW_HEIGHT = 25;
+const EXPORT_PATH = path.join(__dirname, '../exports/Pruefungsbewertungsbericht_${Date.now()}.pdf');
 
-const generateChart = async (data, type, title) => {
-    const chartCanvas = new ChartJSNodeCanvas({ width: CHART_WIDTH, height: CHART_HEIGHT });
-    const config = {
-        type,
-        data,
-        options: {
-            plugins: { title: { display: true, text: title } },
-        },
-    };
-    return await chartCanvas.renderToBuffer(config);
+const centerText = (doc, text) => {
+    const pageWidth = doc.page.width;
+    const textWidth = doc.widthOfString(text);
+    const xPosition = (pageWidth - textWidth) / 2;
+    doc.text(text, xPosition, doc.y, { underline: true });
 };
 
-const drawTable = (doc, headers, rows, startX, startY) => {
-    const columnWidths = headers.map(() => 120);
-    let y = startY;
-
-    const addNewPageIfNeeded = () => {
-        if (y + ROW_HEIGHT > PAGE_HEIGHT) {
-            doc.addPage();
-            y = MARGIN_TOP;
-        }
-    };
-
-    doc.font('Helvetica-Bold');
-    headers.forEach((header, i) => {
-        addNewPageIfNeeded();
-        doc.rect(startX + (i * columnWidths[i]), y, columnWidths[i], ROW_HEIGHT).stroke();
-        doc.text(header, startX + (i * columnWidths[i]) + 5, y + 5, { width: columnWidths[i] - 10, align: 'center' });
-    });
-    y += ROW_HEIGHT;
-    doc.font('Helvetica');
-
-    rows.forEach(row => {
-        addNewPageIfNeeded();
-        row.forEach((cell, i) => {
-            doc.rect(startX + (i * columnWidths[i]), y, columnWidths[i], ROW_HEIGHT).stroke();
-            doc.text(String(cell), startX + (i * columnWidths[i]) + 5, y + 5, { width: columnWidths[i] - 10, align: 'center' });
-        });
-        y += ROW_HEIGHT;
-    });
-    doc.moveDown(1);
+const ensureNewPage = (doc, spaceNeeded) => {
+    if (doc.y + spaceNeeded > doc.page.height - 50) {
+        doc.addPage();
+    }
 };
 
 const generatePDFReport = async () => {
-    if (!fs.existsSync(DATABASE_PATH)) {
-        throw new Error('No data found in database.json');
-    }
+    const { students, thresholds, weightingOfExercice, moduleInfo, successRate, failureRate, exerciseLabels, exerciseData, avgPercentages } = getProcessedData();
 
-    const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
-    const { students, weightingOfExercice, thresholds } = JSON.parse(rawData);
+    const chartBuffer = await generateChart();
+    const passChartBuffer = await generatePassChart();
+    const radarChartBuffer = await generateRadarChart(exerciseLabels, exerciseData, 'Durchschnittliche Prozentsätze pro Übung');
 
-    const doc = new PDFDocument({ size: 'A4', margin: 50 });
+    const doc = new PDFDocument({ size: 'A4', margin: 40 });
     const stream = fs.createWriteStream(EXPORT_PATH);
     doc.pipe(stream);
 
-    doc.fontSize(16).text("Rapport d'Évaluation des Examens", { align: 'center' });
+    // Titre principal
+    doc.font('Helvetica-Bold').fontSize(14).text("Prüfungsbewertungsbericht", { align: 'center' });
+    doc.moveDown(1);
+
+    // Informations sur le module
+    doc.fontSize(10);
+    const moduleData = [
+        { label: "Modultitel", value: moduleInfo.moduleTitle },
+        { label: "Modulnummer", value: moduleInfo.moduleNumber },
+        { label: "Prüfungsdatum", value: moduleInfo.examDate },
+        { label: "Prüfer", value: moduleInfo.examiners.join(', ') },
+        { label: "Exportsdatum", value: new Date().toLocaleDateString() }
+    ];
+
+    moduleData.forEach(({ label, value }) => {
+        doc.font('Helvetica-Bold').text(`${label}: `, { continued: true }).font('Helvetica').text(value);
+    });
+
     doc.moveDown(2);
 
-    doc.fontSize(12).text("1. Configuration", { underline: true });
+    // Notenverteilung
+    doc.fontSize(12);
+    ensureNewPage(doc, 250);
+    centerText(doc, "Verteilung der Noten und Prozentsätze");
     doc.moveDown(1);
-    drawTable(doc, ['Points', 'Pourcentage', 'Note'], thresholds.map(t => [t.points, `${t.percentage}%`, t.note]), 50, doc.y);
+    if (doc.y + 250 > doc.page.height - 50) doc.addPage();
+    drawTable(doc, ['Punkte', 'Prozentsatz', 'Note'], thresholds.map(t => [t.points, `${t.percentage}%`, t.note.toString().replace('.', ',')]), doc.y);
+    doc.moveDown(4);
 
+    // Gewichtung der Übungen
+    doc.fontSize(12);
+    ensureNewPage(doc, 250);
+    centerText(doc, "Gewichtung der Übungen");
     doc.moveDown(1);
-    drawTable(doc, ['Exercice', 'Pondération'], Object.entries(weightingOfExercice).map(([ex, wt]) => [ex, wt]), 50, doc.y);
+    if (doc.y + 250 > doc.page.height - 50) doc.addPage();
+    drawTable(doc, ['Übung', 'Gewichtung'], Object.entries(weightingOfExercice).map(([ex, wt]) => [ex, wt]), doc.y);
+    doc.moveDown(4);
 
-    doc.moveDown(2);
-    doc.fontSize(12).text("2. Données des Participants", { underline: true });
+    // Teilnehmerdaten
+    doc.fontSize(12);
+    ensureNewPage(doc, 250);
+    centerText(doc, "Teilnehmerdaten");
     doc.moveDown(1);
-    drawTable(doc, ['Nom', 'Matricule', 'Total Points', 'Bewertung'], students.map(s => [s.vorname + ' ' + s.nachname, s.mtknr, s.total || 'N/A', s.bewertung || 'N/A']), 50, doc.y);
+    if (doc.y + 250 > doc.page.height - 50) doc.addPage();
+    drawTable(doc, ['Matrikelnummer', 'Name', 'Gesamtpunkte', 'Bewertung'], 
+    students
+        .sort((a, b) => a.nachname.localeCompare(b.nachname)) // Tri par nom de famille
+        .map(s => [s.mtknr, `${s.nachname}, ${s.vorname}`, (s.total ? s.total.toString().replace('.', ',') : 'ne'), s.bewertung || 'ne']), 
+    doc.y);
 
-    doc.addPage();
-    doc.fontSize(12).text("3. Analyse Graphique", { underline: true });
+    doc.moveDown(4);
+
+    // Notenverteilung
+    doc.fontSize(12);
+    ensureNewPage(doc, 250);
+    centerText(doc, "Notenverteilung");
     doc.moveDown(1);
+    if (doc.y + 250 > doc.page.height - 50) doc.addPage();
+    doc.image(chartBuffer, 72, doc.y, { width: 450 });
+    doc.moveDown(26);
 
-    const noteCategoriesData = {
-        labels: thresholds.map(t => t.note),
-        datasets: [{
-            label: 'Nombre de notes par catégorie',
-            data: thresholds.map(t => students.filter(s => s.bewertung === t.note).length),
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        }],
-    };
-    const noteCategoriesChart = await generateChart(noteCategoriesData, 'bar', 'Répartition des Notes');
-    doc.image(noteCategoriesChart, { width: 400, align: 'center' });
-    doc.moveDown(2);
+    // Erfolgs- und Misserfolgsrate
+    doc.fontSize(12);
+    ensureNewPage(doc, 250);
+    centerText(doc, "Erfolgs- und Misserfolgsrate");
+    doc.moveDown(1);
+    if (doc.y + 250 > doc.page.height - 50) doc.addPage();
+    doc.font('Helvetica-Bold').text("Erfolgsrate: ", { continued: true }).font('Helvetica').text(`${successRate.toFixed(2)}%`);
+    doc.font('Helvetica-Bold').text("Misserfolgsrate: ", { continued: true }).font('Helvetica').text(`${failureRate.toFixed(2)}%`);
+    doc.moveDown(1);
+    doc.image(passChartBuffer, 150, doc.y, { width: 300 });
+    doc.moveDown(20);
+
+    // Durchschnittliche Prozentsätze pro Übung
+    doc.fontSize(12);
+    ensureNewPage(doc, 250);
+    centerText(doc, "Durchschnittliche Prozentsätze pro Übung");
+    doc.moveDown(1);
+    if (doc.y + 250 > doc.page.height - 50) doc.addPage();
+    doc.image(radarChartBuffer, 72, doc.y, { width: 450 });
+    doc.moveDown(20);
+
+    doc.fontSize(12);
+    ensureNewPage(doc, 250);
+    centerText(doc, "Durchschnittswerte pro Übung");
+    doc.moveDown(1);
+    if (doc.y + 250 > doc.page.height - 50) doc.addPage();
+    drawTable(doc, ['Übungen', 'Durchschnitt (%)'], Object.entries(avgPercentages).map(([exercise, average]) => [exercise, average.toFixed(2).toString().replace('.', ',') + "%"]), doc.y);
 
     doc.end();
-
     return new Promise((resolve, reject) => {
-        stream.on('finish', () => {
-            console.log("Fichier PDF généré avec succès !");
-            resolve(EXPORT_PATH);
-        });
-
-        stream.on('error', (err) => {
-            console.error("Erreur lors de la génération du fichier PDF :", err);
-            reject(err);
-        });
+        stream.on('finish', () => resolve(EXPORT_PATH));
+        stream.on('error', reject);
     });
 };
 
