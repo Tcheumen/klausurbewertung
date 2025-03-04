@@ -19,7 +19,7 @@ const generateExcelFile = () => {
         Nachname: student.nachname,
         Vorname: student.vorname,
         ...student.scores,
-        Total: student.total || String('ne').padStart(21, ' '),
+        Gesamt: student.total || String('ne').padStart(21, ' '),
         Bewertung: student.bewertung || String('ne').padStart(21, ' '),
     }));
 
@@ -54,10 +54,9 @@ const moduleInfoData = [
 
     const moduleInfoWorksheet = xlsx.utils.json_to_sheet(moduleInfoData);
 
-    // Ajustement automatique de la largeur des colonnes
 moduleInfoWorksheet['!cols'] = [
-    { wch: 20 }, // Largeur pour "Attribut"
-    { wch: 30 }  // Largeur pour "Valeur"
+    { wch: 20 }, 
+    { wch: 30 } 
 ];
 
 

@@ -9,13 +9,15 @@ import { getBewertung, getNote } from '../../utils/calculations';
 import { ExportEXcelComponent } from '../export-excel/export-excel.component';
 import { PdfExportComponent } from '../pdf-export/pdf-export.component';
 import { CsvexportComponent } from '../csvexport/csvexport.component';
+declare const window: any;
+
 
 @Component({
   selector: 'app-upload',
   standalone: true,
   imports: [CommonModule, FormsModule, ExportEXcelComponent, PdfExportComponent, CsvexportComponent],
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss']
+  styleUrls: ['../../../assets/css/styles.css']
 })
 export class UploadComponent implements OnInit {
 
@@ -27,6 +29,7 @@ export class UploadComponent implements OnInit {
 
   thresholds: Threshold[] = [];
   taskWeights: { [task: string]: number } = {};
+  
 
   newTask: string = '';
   newTaskWeight: number = 0;
@@ -47,27 +50,23 @@ export class UploadComponent implements OnInit {
   ngOnInit(): void {
     this.loadThresholds();
 
-    //  Studenten laden, falls bereits importiert
-    const storedStudents = sessionStorage.getItem('students');
-    if (storedStudents) {
-      this.students = JSON.parse(storedStudents);
-      if (this.students.length > 0 && this.students[0].scores) {
-        this.tasks = Object.keys(this.students[0].scores);
-      }
-      this.isFileUploaded = true;
-    }
+    if (typeof window !== 'undefined' && window.electron) {  // ✅ Vérification de window
+      console.log("Electron détecté, chargement des données depuis electron-store...");
 
-    const storedTaskWeights = sessionStorage.getItem('taskWeights');
-    if (storedTaskWeights) {
-      this.taskWeights = JSON.parse(storedTaskWeights);
-    }
+      window.electron.loadData().then((data: any) => {
+        this.students = data.students || [];
+        this.taskWeights = data.taskWeights || {};
 
-  
-    if (!performance.navigation.type || performance.navigation.type === 1) {
-      sessionStorage.removeItem('students');
-      sessionStorage.removeItem('taskWeights'); 
+        if (this.students.length > 0 && this.students[0].scores) {
+          this.tasks = Object.keys(this.students[0].scores);
+        }
+
+        this.isFileUploaded = this.students.length > 0;
+      });
     }
   }
+
+
 
 
 
@@ -89,7 +88,7 @@ export class UploadComponent implements OnInit {
         if (this.students.length > 0) {
           this.tasks = Object.keys(this.students[0].scores);
         }
-        
+
         this.students.forEach(student => this.updateBewertung(student));
       },
       error: (err) => console.error('Fehler beim Laden der Studenten:', err)
@@ -98,21 +97,21 @@ export class UploadComponent implements OnInit {
 
   // Aktualisierung der Punktzahlen mit Überprüfung der maximalen Grenze
   updateScore(student: Student, task: string, value: number): void {
-    const maxValue = this.taskWeights[task] || 0; 
-    const studentId = student.mtknr.toString(); 
+    const maxValue = this.taskWeights[task] || 0;
+    const studentId = student.mtknr.toString();
 
     if (!this.scoreErrors[studentId]) {
-      this.scoreErrors[studentId] = {}; 
+      this.scoreErrors[studentId] = {};
     }
 
     if (value > maxValue) {
       this.scoreErrors[studentId][task] = `Die Note darf ${maxValue} für ${task} nicht überschreiten`;
       student.scores[task] = 0;
     } else {
-      this.scoreErrors[studentId][task] = ''; 
-      student.scores[task] = value >= 0 ? value : 0; 
+      this.scoreErrors[studentId][task] = '';
+      student.scores[task] = value >= 0 ? value : 0;
     }
-    
+
     student.total = Object.values(student.scores).reduce((sum, score) => sum + (score || 0), 0);
     this.updateBewertung(student);
   }
@@ -120,24 +119,24 @@ export class UploadComponent implements OnInit {
 
   // Aktualisierung der Bewertung und der Note
   updateBewertung(student: Student): void {
-    
+
     if (!student.scores) {
       student.scores = {};
     }
 
-    
+
     student.total = Object.values(student.scores)
       .map(score => (isNaN(score) || score === null || score === undefined ? 0 : Number(score)))
       .reduce((sum, score) => sum + score, 0);
 
-    
+
     if (student.total === 0) {
       student.bewertung = null;
       student.note = "";
       return;
     }
 
-    
+
     student.bewertung = getBewertung(student.total, this.thresholds);
     student.note = isNaN(student.bewertung) ? "" : getNote(student.bewertung);
   }
@@ -148,6 +147,8 @@ export class UploadComponent implements OnInit {
     this.file = event.target.files[0];
   }
 
+
+
   uploadFile(): void {
     if (this.file) {
       const formData = new FormData();
@@ -155,23 +156,23 @@ export class UploadComponent implements OnInit {
 
       this.apiService.uploadCSV(formData).subscribe({
         next: (response) => {
-          console.log("Response API :", response); 
+          console.log("Response API :", response);
 
           this.students = response.students || [];
-
-          if (this.students.length > 0 && this.students[0].scores) {
-            this.tasks = Object.keys(this.students[0].scores);
-          } else {
-            this.tasks = [];
-          }
-
-          
-          console.log("Shlussel:", Object.keys(response));
+          this.tasks = this.students.length > 0 && this.students[0].scores ? Object.keys(this.students[0].scores) : [];
 
           this.students.forEach(student => this.updateBewertung(student));
 
-          
-          sessionStorage.setItem('students', JSON.stringify(this.students));
+          // 🛑 Suppression de sessionStorage
+          // sessionStorage.setItem('students', JSON.stringify(this.students));
+
+          // ✅ Sauvegarde dans electron-store
+          if (window.electron) {
+            window.electron.saveData({
+              students: this.students,
+              taskWeights: this.taskWeights
+            });
+          }
 
           this.saveMessage = 'Datei wurde erfolgreich importiert!';
           this.isFileUploaded = true;
@@ -256,6 +257,15 @@ export class UploadComponent implements OnInit {
       next: () => {
         this.saveMessage = 'Daten wurden erfolgreich gespeichert!';
         this.isSaved = true;
+
+        // ✅ Sauvegarde dans electron-store
+        if (window.electron) {
+          window.electron.saveData({
+            students: this.students,
+            taskWeights: this.taskWeights
+          });
+        }
+
         setTimeout(() => this.saveMessage = '', 3000);
       },
       error: () => {
@@ -264,6 +274,7 @@ export class UploadComponent implements OnInit {
       }
     });
   }
+
 
   exportCSV(): void {
     if (this.exportCsvComp) {
@@ -283,18 +294,16 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  
-  saveStateBeforeLeave(): void {
-    try {
-      if (typeof sessionStorage !== 'undefined') {
-        sessionStorage.setItem('students', JSON.stringify(this.students));
-        sessionStorage.setItem('taskWeights', JSON.stringify(this.taskWeights));
-      }
-    } catch (error) {
-      console.warn('sessionStorage is not available:', error);
-    }
 
+  saveStateBeforeLeave(): void {
+    if (window.electron) {
+      window.electron.saveData({
+        students: this.students,
+        taskWeights: this.taskWeights
+      });
+    }
   }
+
 
 
 
@@ -303,5 +312,7 @@ export class UploadComponent implements OnInit {
     this.router.navigate(['/threshold']);
   }
 
-
+  navigateToStart(): void {
+    this.router.navigate(['/module']);
+  }
 }

@@ -10,7 +10,7 @@ import { Threshold } from '../../models/threshold';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './thresholds.component.html',
-  styleUrls: ['./thresholds.component.scss']
+  styleUrls: ['../../../assets/css/styles.css']
 })
 export class ThresholdsComponent implements OnInit {
 

@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
   selector: 'app-csvexport',
   imports: [CommonModule, FormsModule],
   templateUrl: './csvexport.component.html',
-  styleUrls: ['./csvexport.component.scss']
+  styleUrls: ['../../../assets/css/styles.css']
 })
 export class CsvexportComponent {
 

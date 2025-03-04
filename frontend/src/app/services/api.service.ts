@@ -19,7 +19,7 @@ export class ApiService {
   // Télécharger un fichier CSV
 
   uploadCSV(data: FormData): Observable<{ students: Student[] }> {
-    return this.http.post<{ students: Student[] }>(`${this.baseUrl}/api/upload`, data);
+    return this.http.post<{ students: Student[] }>(`${this.baseUrl}/api/data/upload`, data);
   }
 
   // Exporter un fichier Excel

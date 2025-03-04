@@ -3,7 +3,7 @@ const path = require('path');
 
 const DATABASE_PATH = path.join(__dirname, '../data/database.json');
 
-// Ajouter des informations sur le module
+
 const addModuleInfo = (req, res) => {
   let { moduleTitle, moduleNumber, examDate, examiners} = req.body;
 
@@ -17,7 +17,6 @@ const addModuleInfo = (req, res) => {
 
     data.moduleInfo = { moduleTitle, moduleNumber, examDate, examiners };
 
-    // Sauvegarder les modifications
     fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
     res.json({ message: 'Module information added successfully', moduleInfo: data.moduleInfo });
   } else {
@@ -25,7 +24,7 @@ const addModuleInfo = (req, res) => {
   }
 };
 
-// Récupérer les informations du module
+
 const getModuleInfo = (req, res) => {
   if (fs.existsSync(DATABASE_PATH)) {
     const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
@@ -43,7 +42,7 @@ const getModuleInfo = (req, res) => {
 
 
 
-// Mettre à jour les informations du module
+
 const updateModuleInfo = (req, res) => {
   let { moduleTitle, moduleNumber, examDate, examiners } = req.body;
 
@@ -61,7 +60,6 @@ const updateModuleInfo = (req, res) => {
 
     data.moduleInfo = { moduleTitle, moduleNumber, examDate, examiners };
 
-    // Sauvegarder les modifications
     fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
     res.json({ message: 'Module information updated successfully', moduleInfo: data.moduleInfo });
   } else {
@@ -72,6 +70,5 @@ const updateModuleInfo = (req, res) => {
 module.exports = {
   addModuleInfo,
   getModuleInfo,
-  
   updateModuleInfo
 };

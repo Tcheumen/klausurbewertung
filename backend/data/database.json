@@ -6,7 +6,14 @@
       "vorname": "Max",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 23,
+        "we": 12
+      },
+      "total": 35,
+      "bewertung": 51,
+      "note": "4,0"
     },
     {
       "mtknr": "5762983",
@@ -14,7 +21,14 @@
       "vorname": "Paul",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 32,
+        "we": 1
+      },
+      "total": 33,
+      "bewertung": 49,
+      "note": "n.b"
     },
     {
       "mtknr": "5847123",
@@ -22,7 +36,14 @@
       "vorname": "Alexander",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 2,
+        "we": 3
+      },
+      "total": 5,
+      "bewertung": 7,
+      "note": "g.n.b"
     },
     {
       "mtknr": "5983746",
@@ -30,7 +51,14 @@
       "vorname": "Lukas",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 32,
+        "we": 2
+      },
+      "total": 34,
+      "bewertung": 50,
+      "note": "4,0"
     },
     {
       "mtknr": "5938174",
@@ -38,7 +66,14 @@
       "vorname": "Leon",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5792834",
@@ -46,7 +81,14 @@
       "vorname": "Jonas",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5817236",
@@ -54,7 +96,14 @@
       "vorname": "Felix",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5871934",
@@ -62,7 +111,14 @@
       "vorname": "Liam",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5918273",
@@ -70,7 +126,14 @@
       "vorname": "Noah",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5761234",
@@ -78,7 +141,14 @@
       "vorname": "Elias",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5938472",
@@ -86,7 +156,14 @@
       "vorname": "Finn",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5847623",
@@ -94,7 +171,14 @@
       "vorname": "Julian",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5771928",
@@ -102,7 +186,14 @@
       "vorname": "Tim",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5912347",
@@ -110,7 +201,14 @@
       "vorname": "Tom",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5867293",
@@ -118,7 +216,14 @@
       "vorname": "Milan",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5793846",
@@ -126,7 +231,14 @@
       "vorname": "David",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5938712",
@@ -134,7 +246,14 @@
       "vorname": "Emil",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5849273",
@@ -142,7 +261,14 @@
       "vorname": "Ben",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5782634",
@@ -150,7 +276,14 @@
       "vorname": "Mia",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5958172",
@@ -158,7 +291,14 @@
       "vorname": "Emma",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5891346",
@@ -166,7 +306,14 @@
       "vorname": "Sophia",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5738294",
@@ -174,7 +321,14 @@
       "vorname": "Hannah",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5849372",
@@ -182,7 +336,14 @@
       "vorname": "Lea",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5791823",
@@ -190,7 +351,14 @@
       "vorname": "Anna",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5982734",
@@ -198,7 +366,14 @@
       "vorname": "Marie",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5937412",
@@ -206,7 +381,14 @@
       "vorname": "Lina",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5861923",
@@ -214,7 +396,14 @@
       "vorname": "Emilia",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5772938",
@@ -222,7 +411,14 @@
       "vorname": "Lara",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5918723",
@@ -230,7 +426,14 @@
       "vorname": "Clara",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5791284",
@@ -238,7 +441,14 @@
       "vorname": "Nina",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5847913",
@@ -246,7 +456,14 @@
       "vorname": "Ella",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5982739",
@@ -254,7 +471,14 @@
       "vorname": "Greta",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5931287",
@@ -262,7 +486,14 @@
       "vorname": "Lara",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5773492",
@@ -270,7 +501,14 @@
       "vorname": "Melina",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5894713",
@@ -278,7 +516,14 @@
       "vorname": "Sarah",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5917824",
@@ -286,7 +531,14 @@
       "vorname": "Laura",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5763829",
@@ -294,7 +546,14 @@
       "vorname": "Julia",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5849712",
@@ -302,7 +561,14 @@
       "vorname": "Tobias",
       "pversuch": "2",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5932871",
@@ -310,7 +576,14 @@
       "vorname": "Erik",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5981723",
@@ -318,7 +591,14 @@
       "vorname": "Simon",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5794638",
@@ -326,7 +606,14 @@
       "vorname": "Samuel",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5912378",
@@ -334,7 +621,14 @@
       "vorname": "Moritz",
       "pversuch": "2",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5847391",
@@ -342,7 +636,14 @@
       "vorname": "Nico",
       "pversuch": "2",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5761923",
@@ -350,7 +651,14 @@
       "vorname": "Jan",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5937812",
@@ -358,7 +666,14 @@
       "vorname": "Ahmet",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5982731",
@@ -366,7 +681,14 @@
       "vorname": "Mehmet",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5871938",
@@ -374,7 +696,14 @@
       "vorname": "Fatma",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5918274",
@@ -382,7 +711,14 @@
       "vorname": "Aylin",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5791382",
@@ -390,7 +726,14 @@
       "vorname": "Leyla",
       "pversuch": "1",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     },
     {
       "mtknr": "5489654",
@@ -398,7 +741,14 @@
       "vorname": "Nguyen",
       "pversuch": "2",
       "pvermerk": "",
-      "sitzplatz": ""
+      "sitzplatz": "",
+      "scores": {
+        "dw": 0,
+        "we": 0
+      },
+      "total": 0,
+      "bewertung": null,
+      "note": ""
     }
   ],
   "thresholds": [
@@ -423,7 +773,10 @@
       "note": 1
     }
   ],
-  "weightingOfExercice": {},
+  "weightingOfExercice": {
+    "dw": 32,
+    "we": 12
+  },
   "moduleInfo": {
     "moduleTitle": "Webbasierte Systeme",
     "moduleNumber": "CS1024",

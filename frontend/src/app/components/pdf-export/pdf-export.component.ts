@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
   selector: 'app-pdf-export',
   imports: [CommonModule, FormsModule],
   templateUrl: './pdf-export.component.html',
-  styleUrls: ['./pdf-export.component.scss']
+  styleUrls: ['../../../assets/css/styles.css']
 })
 export class PdfExportComponent {
 

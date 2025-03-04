@@ -1,5 +1,6 @@
-<div class="actions">
-  <button (click)="onButtonCsvClicked()" [disabled]="disabled" [ngClass]="{'disabled-button': disabled}">
-    <i class="fas fa-file-csv"></i> CSV herunterladen
-  </button>
-</div>
+<!-- Section des actions -->
+<button class="btn btn-outline-primary btn-lg px-4 py-2 d-flex align-items-center gap-2 w-auto"
+  (click)="onButtonCsvClicked()" [disabled]="disabled">
+  <i class="fas fa-file-csv"></i> CSV herunterladen
+</button>
+

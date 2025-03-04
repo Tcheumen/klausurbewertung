@@ -10,7 +10,7 @@ const generateCSV = (req, res) => {
         res.attachment('exam_data.csv');
         res.send(csvContent);
     } catch (error) {
-        res.status(500).json({ message: 'Erreur lors de l’exportation du fichier CSV', error });
+        res.status(500).json({ message: 'Error exporting CSV file', error });
     }
 };
 
@@ -25,16 +25,16 @@ const generateExcel = (req, res) => {
 
 const generatePDF = async (req, res) => {
     try {
-        const pdfPath = await generatePDFReport(); // Attendre la résolution de la promesse
+        const pdfPath = await generatePDFReport(); 
         res.download(pdfPath, 'Pruefungsbewertungsbericht.pdf', (err) => {
             if (err) {
-                console.error('Erreur lors du téléchargement:', err);
-                res.status(500).json({ message: 'Erreur lors du téléchargement du fichier PDF' });
+                console.error('Error during download:', err);
+                res.status(500).json({ message: 'Error during download' });
             }
         });
     } catch (error) {
-        console.error('Erreur lors de la génération du fichier PDF:', error);
-        res.status(500).json({ message: 'Erreur lors de la génération du fichier PDF', error: error.message });
+        console.error('Error during generating the PDF file:', error);
+        res.status(500).json({ message: 'Error during generating the PDF file:', error: error.message });
     }
 };
 

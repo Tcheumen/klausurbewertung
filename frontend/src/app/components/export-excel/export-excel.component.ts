@@ -8,7 +8,7 @@ import { Exercice } from '../../models/exercice';
   selector: 'app-export-excel',
   imports: [CommonModule, FormsModule],
   templateUrl: './export-excel.component.html',
-  styleUrls: ['./export-excel.component.scss']
+  styleUrls: ['../../../assets/css/styles.css']
 })
 export class ExportEXcelComponent {
 

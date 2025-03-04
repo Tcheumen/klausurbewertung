@@ -10,7 +10,7 @@ const exportCSV = () => {
 
     const exerciseList = Array.isArray(exercises) ? exercises : Object.keys(exercises || {});
 
-    const fields = ['MatrikelNr', 'Nachname', 'Vorname', 'Pversuch', 'Pvermerk', 'Sitzplatz', ...exerciseList, 'Total', 'Bewertung'];
+    const fields = ['MatrikelNr', 'Nachname', 'Vorname', 'Pversuch', 'Pvermerk', 'Sitzplatz', ...exerciseList, 'Gesamt', 'Bewertung'];
 
     const rows = students.map(student => {
       const hasScores = student.scores && Object.keys(student.scores).length > 0;
@@ -29,7 +29,7 @@ const exportCSV = () => {
       });
 
       const total = Object.values(student.scores || {}).reduce((sum, score) => sum + (score || 0), 0);
-      row['Total'] = total ? String(total).padStart(23, ' ').toString().replace('.', ',') : String('ne').padStart(24, ' ').toString().replace('.', ',');
+      row['Gesamt'] = total ? String(total).padStart(23, ' ').toString().replace('.', ',') : String('ne').padStart(24, ' ').toString().replace('.', ',');
       
       row['Bewertung'] = student.bewertung || String('ne').padStart(24, ' ');
 
@@ -42,7 +42,7 @@ const exportCSV = () => {
       .map(row =>
         fields
           .map(field =>
-            typeof row[field] === 'string' && row[field].includes(separator) && field !== 'Total'
+            typeof row[field] === 'string' && row[field].includes(separator) && field !== 'Gesamt'
               ? `"${row[field]}"` 
               : row[field]
           )

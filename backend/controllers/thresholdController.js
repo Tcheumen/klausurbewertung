@@ -3,12 +3,11 @@ const path = require('path');
 
 const DATABASE_PATH = path.join(__dirname, '../data/database.json');
 
-// Ajouter un seuil
+
 
 const addThreshold = (req, res) => {
   let { points, percentage, note } = req.body;
 
-  // Convertir en nombres
   points = Number(points);
   percentage = Number(percentage);
   note = Number(note);
@@ -25,7 +24,6 @@ const addThreshold = (req, res) => {
       data.thresholds = [];
     }
 
-    // Vérifier si le seuil existe déjà (même points, percentage et note)
     const exists = data.thresholds.some(
       (threshold) => 
         threshold.points === points &&
@@ -36,11 +34,8 @@ const addThreshold = (req, res) => {
     if (exists) {
       return res.status(400).json({ message: 'Threshold already exists' });
     }
-
-    // Ajouter un nouveau seuil
     data.thresholds.push({ points, percentage, note });
 
-    // Sauvegarder les modifications
     fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
     res.json({ message: 'Threshold added successfully', thresholds: data.thresholds });
   } else {
@@ -49,10 +44,9 @@ const addThreshold = (req, res) => {
 };
 
 
-// Supprimer un seuil
+
 const deleteThreshold = (req, res) => {
   const { percentage } = req.body;
-
   if (percentage === undefined) {
     return res.status(400).json({ message: 'Percentage is required' });
   }
@@ -65,10 +59,8 @@ const deleteThreshold = (req, res) => {
       return res.status(404).json({ message: 'No thresholds found' });
     }
 
-    // Supprimer le seuil correspondant au pourcentage
     data.thresholds = data.thresholds.filter(threshold => threshold.percentage !== percentage);
 
-    // Sauvegarder les modifications
     fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
     res.json({ message: 'Threshold deleted successfully', thresholds: data.thresholds });
   } else {
@@ -79,7 +71,7 @@ const deleteThreshold = (req, res) => {
 
 
 
-// Récupérer tous les seuils
+
 const getThresholds = (req, res) => {
   if (fs.existsSync(DATABASE_PATH)) {
     const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
@@ -89,7 +81,7 @@ const getThresholds = (req, res) => {
       return res.status(404).json({ message: 'No thresholds found' });
     }
 
-    // Trier les seuils par "percentage" avant de les retourner
+
     data.thresholds.sort((a, b) => a.percentage - b.percentage);
 
     res.json({ thresholds: data.thresholds });
@@ -99,7 +91,7 @@ const getThresholds = (req, res) => {
 };
 
 
-// Sauvegarder tous les seuils
+
 const saveAllThresholds = (req, res) => {
   const { thresholds } = req.body;
 
@@ -107,7 +99,6 @@ const saveAllThresholds = (req, res) => {
     return res.status(400).json({ message: 'Thresholds must be an array' });
   }
 
-  // Validation des seuils
   for (const threshold of thresholds) {
     const { points, percentage, note } = threshold;
     if (isNaN(Number(points)) || isNaN(Number(percentage)) || isNaN(Number(note))) {
@@ -119,10 +110,8 @@ const saveAllThresholds = (req, res) => {
     const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
     const data = JSON.parse(rawData);
 
-    // Trier les seuils par "percentage" avant de les sauvegarder
     data.thresholds = thresholds.sort((a, b) => a.percentage - b.percentage);
 
-    // Sauvegarder les modifications
     fs.writeFileSync(DATABASE_PATH, JSON.stringify(data, null, 2));
     res.json({ message: 'All thresholds saved successfully', thresholds: data.thresholds });
   } else {
