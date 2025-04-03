@@ -49,8 +49,8 @@ export class UploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadThresholds();
-
-    if (typeof window !== 'undefined' && window.electron) {  // ✅ Vérification de window
+    
+    if (typeof window !== 'undefined' && window.electron) {  
       console.log("Electron détecté, chargement des données depuis electron-store...");
 
       window.electron.loadData().then((data: any) => {
@@ -63,10 +63,8 @@ export class UploadComponent implements OnInit {
 
         this.isFileUploaded = this.students.length > 0;
       });
-    }
+    } 
   }
-
-
 
 
 
@@ -123,19 +121,15 @@ export class UploadComponent implements OnInit {
     if (!student.scores) {
       student.scores = {};
     }
-
-
     student.total = Object.values(student.scores)
       .map(score => (isNaN(score) || score === null || score === undefined ? 0 : Number(score)))
       .reduce((sum, score) => sum + score, 0);
-
 
     if (student.total === 0) {
       student.bewertung = null;
       student.note = "";
       return;
     }
-
 
     student.bewertung = getBewertung(student.total, this.thresholds);
     student.note = isNaN(student.bewertung) ? "" : getNote(student.bewertung);
@@ -162,18 +156,7 @@ export class UploadComponent implements OnInit {
           this.tasks = this.students.length > 0 && this.students[0].scores ? Object.keys(this.students[0].scores) : [];
 
           this.students.forEach(student => this.updateBewertung(student));
-
-          // 🛑 Suppression de sessionStorage
-          // sessionStorage.setItem('students', JSON.stringify(this.students));
-
-          // ✅ Sauvegarde dans electron-store
-          if (window.electron) {
-            window.electron.saveData({
-              students: this.students,
-              taskWeights: this.taskWeights
-            });
-          }
-
+          this.saveStateBeforeLeave();
           this.saveMessage = 'Datei wurde erfolgreich importiert!';
           this.isFileUploaded = true;
           setTimeout(() => this.saveMessage = '', 3000);
@@ -219,7 +202,7 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  // Supprimer une tâche
+  // delete Task
   removeTask(task: string): void {
     this.apiService.deleteExercice(task).subscribe({
       next: () => {
@@ -257,15 +240,7 @@ export class UploadComponent implements OnInit {
       next: () => {
         this.saveMessage = 'Daten wurden erfolgreich gespeichert!';
         this.isSaved = true;
-
-        // ✅ Sauvegarde dans electron-store
-        if (window.electron) {
-          window.electron.saveData({
-            students: this.students,
-            taskWeights: this.taskWeights
-          });
-        }
-
+        this.saveStateBeforeLeave();
         setTimeout(() => this.saveMessage = '', 3000);
       },
       error: () => {
@@ -303,9 +278,7 @@ export class UploadComponent implements OnInit {
       });
     }
   }
-
-
-
+  
 
   navigateToPrevious(): void {
     this.saveStateBeforeLeave();

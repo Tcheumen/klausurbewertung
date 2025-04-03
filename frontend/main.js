@@ -24,7 +24,7 @@ function createWindow() {
   win.loadFile(path.join(__dirname, 'dist/frontend/browser/index.html'));
 }
 
-// ✅ Attendre que `store` soit chargé avant d'utiliser IPC
+
 ipcMain.handle('loadData', async () => {
   await store;
   return {
@@ -39,7 +39,7 @@ ipcMain.handle('saveData', async (_, data) => {
   store.set('taskWeights', data.taskWeights);
 });
 
-// ✅ Lancer Electron
+
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {

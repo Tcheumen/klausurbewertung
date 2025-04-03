@@ -21,7 +21,7 @@ export class ModuleInfoComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router) {} 
 
   ngOnInit(): void {
-    this.loadModuleInfo();
+    
   }
 
   loadModuleInfo(): void {

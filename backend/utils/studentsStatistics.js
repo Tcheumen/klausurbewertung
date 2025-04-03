@@ -26,7 +26,6 @@ const getProcessedData = () => {
             throw new Error('No data found in database.json');
         }
 
-        // 🔄 Lire le fichier JSON à chaque appel
         const rawData = fs.readFileSync(DATABASE_PATH, 'utf8');
         const { students, weightingOfExercice, thresholds, moduleInfo } = JSON.parse(rawData);
 
@@ -56,7 +55,6 @@ const getProcessedData = () => {
         const successRate = (passedStudents / totalStudents) * 100;
         const failureRate = 100 - successRate;
 
-        // Calcul des moyennes par exercice
         const exerciseScores = {};
 
         students.forEach(student => {

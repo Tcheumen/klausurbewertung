@@ -4,7 +4,7 @@ const { getProcessedData } = require('./studentsStatistics');
 const { Chart, BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } = require('chart.js');
 const ChartDataLabels = require('chartjs-plugin-datalabels');
 
-// 📌 Enregistrer les modules nécessaires pour Chart.js v3.9.1
+
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, ChartDataLabels);
 
 const CHART_WIDTH = 600;
@@ -18,10 +18,10 @@ const generateChart = async () => {
     const { labels, data,  totalStudents } = getProcessedData();
 
     const legendLabels = [
-        { text: "Gar nicht bestanden", fillStyle: "red" },  // 🔴 Rot
-        { text: "Nicht bestanden", fillStyle: "orange" },       // 🟠 Orange
-        { text: "Bestanden", fillStyle: "gray" },                              // ⚪ Grau
-        { text: "Sehr gut bestanden", fillStyle: "green" }                // 🟢 Grün
+        { text: "Gar nicht bestanden", fillStyle: "red" },  
+        { text: "Nicht bestanden", fillStyle: "orange" },       
+        { text: "Bestanden", fillStyle: "gray" },                          
+        { text: "Sehr gut bestanden", fillStyle: "green" }               
     ];
 
     const colors = labels.map(label => {
@@ -98,7 +98,7 @@ const generateChart = async () => {
 
         }
     },
-    plugins: [ChartDataLabels]  // Ajout du plugin
+    plugins: [ChartDataLabels]  
 };
 
     return await chartCanvas.renderToBuffer(config);
